@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "BVH.h"
+#include "Debug.h"
 #include "AABB.h"
 #include "Math.h"
 
@@ -13,7 +14,7 @@ int boxCompareX( const void* a, const void* b )
 	AABB aBox, bBox;
 	if( !at->getBoundingBox( 0.0f, 0.0f, aBox ) || !bt->getBoundingBox( 0.0f, 0.0f, bBox ) )
 	{
-		OutputDebugString( "A Traceable does not have a bounding box" );
+		debugf( "A Traceable does not have a bounding box" );
 		return 0;
 	}
 
@@ -35,7 +36,7 @@ int boxCompareY( const void* a, const void* b )
 	AABB aBox, bBox;
 	if( !at->getBoundingBox( 0.0f, 0.0f, aBox ) || !bt->getBoundingBox( 0.0f, 0.0f, bBox ) )
 	{
-		OutputDebugString( "A Traceable does not have a bounding box" );
+		debugf( "A Traceable does not have a bounding box" );
 		return 0;
 	}
 
@@ -57,7 +58,7 @@ int boxCompareZ( const void* a, const void* b )
 	AABB aBox, bBox;
 	if( !at->getBoundingBox( 0.0f, 0.0f, aBox ) || !bt->getBoundingBox( 0.0f, 0.0f, bBox ) )
 	{
-		OutputDebugString( "A Traceable does not have a bounding box" );
+		debugf( "A Traceable does not have a bounding box" );
 		return 0;
 	}
 
@@ -110,7 +111,7 @@ BVHNode::BVHNode( Traceable** list, uint32_t listCount, float t0, float t1 )
 	AABB leftBounds, rightBounds;
 	if( !mLeft->getBoundingBox( t0, t1, leftBounds ) || !mRight->getBoundingBox( t0, t1, rightBounds ) )
 	{
-		OutputDebugString( "A Traceable is missing its bounding box" );
+		debugf( "A Traceable is missing its bounding box" );
 	}
 
 	mBounds = enclose( leftBounds, rightBounds );

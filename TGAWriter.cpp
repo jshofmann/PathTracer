@@ -4,6 +4,7 @@
 
 #include "TGAWriter.h"
 #include "TGASupport.h"
+#include "Debug.h"
 
 bool TGAWriter::write( const uint8_t* pixels, uint16_t width, uint16_t height, uint8_t bytesPerPixel, const char* filename )
 {
@@ -15,7 +16,7 @@ bool TGAWriter::write( const uint8_t* pixels, uint16_t width, uint16_t height, u
 	FILE* file = fopen( filename, "wb" );
 	if( file == NULL )
 	{
-		OutputDebugString( "fopen failed" );
+		debugf( "fopen failed" );
 		return false;
 	}
 

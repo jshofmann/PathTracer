@@ -17,7 +17,7 @@ static uint8_t* ReadFile( const char* filename, size_t& sizeInBytes )
 	FILE* file = fopen( filename, "r+b" );
 	if( file == NULL )
 	{
-		vdebugf( "ReadFile: Failed to open %s due to error %d: %s\n", filename, errno, strerror( errno ) );
+		debugf( "ReadFile: Failed to open %s due to error %d: %s\n", filename, errno, strerror( errno ) );
 		return nullptr;
 	}
 
@@ -37,12 +37,12 @@ static uint8_t* ReadFile( const char* filename, size_t& sizeInBytes )
 	{
 		if( ferror( file ) != 0 )
 		{
-			vdebugf( "ReadFile: fread() failed, perhaps due to error %d: %s\n", errno, strerror( errno ) );
+			debugf( "ReadFile: fread() failed, perhaps due to error %d: %s\n", errno, strerror( errno ) );
 		}
 	}
 	else if( bytesRead < length )
 	{
-		vdebugf( "ReadFile: Read only %d of %d bytes, perhaps due to error %d: %s\n", bytesRead, length, errno, strerror( errno ) );
+		debugf( "ReadFile: Read only %d of %d bytes, perhaps due to error %d: %s\n", bytesRead, length, errno, strerror( errno ) );
 	}
 
 	fclose( file );
