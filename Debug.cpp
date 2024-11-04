@@ -5,7 +5,7 @@
 
 #include "Debug.h"
 
-void vdebugf( const char* format, ... )
+void debugf( const char* format, ... )
 {
 	static constexpr size_t kMaxMessageLength = 1024;
 	char buf[ kMaxMessageLength ];
@@ -18,6 +18,6 @@ void vdebugf( const char* format, ... )
 
 	if( written >= 0 )
 	{
-		OutputDebugString( buf );
+		debugf( buf );
 	}
 }

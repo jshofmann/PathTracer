@@ -154,12 +154,14 @@
     <ClInclude Include="BMPSupport.h" />
     <ClInclude Include="BVH.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="HashUtils.h" />
     <ClInclude Include="HitTable.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="PathTracer.h" />
     <ClInclude Include="Perlin.h" />
+    <ClInclude Include="PNGWriter.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="Rect.h" />
@@ -180,10 +182,12 @@
     <ClCompile Include="BMPReader.cpp" />
     <ClCompile Include="BVH.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="HashUtils.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="PathTracer.cpp" />
     <ClCompile Include="Perlin.cpp" />
+    <ClCompile Include="PNGWriter.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -204,6 +208,9 @@
   <ItemGroup>
     <Image Include="PathTracer.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CRC32.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

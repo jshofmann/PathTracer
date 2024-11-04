@@ -24,7 +24,7 @@ HBITMAP		gBitmap = NULL;
 BOOL		gContinue = TRUE;
 HACCEL		gAccelTable = NULL;
 
-void AdjustWindowDimensions( uint16_t& width, uint16_t& height, DWORD dwWindowStyle )
+static void AdjustWindowDimensions( uint16_t& width, uint16_t& height, DWORD dwWindowStyle )
 {
 	// Adjust the width and height to account for the title bar and borders
 	RECT rect;
@@ -38,7 +38,7 @@ void AdjustWindowDimensions( uint16_t& width, uint16_t& height, DWORD dwWindowSt
 		LONG windowWidth = rect.right - rect.left + 1;
 		LONG windowHeight = rect.bottom - rect.top + 1;
 
-//		vdebugf( "Win32Window::adjustWindowDimensions: Adjusting %d x %d to %d x %d\n", width, height, windowWidth, windowHeight );
+//		debugf( "Win32Window::adjustWindowDimensions: Adjusting %d x %d to %d x %d\n", width, height, windowWidth, windowHeight );
 
 		width = ( windowWidth < 0 ) ? 0 : ( windowWidth > 65535 ) ? 65535 : static_cast< uint16_t >( windowWidth );
 		height = ( windowHeight < 0 ) ? 0 : ( windowHeight > 65535 ) ? 65535 : static_cast< uint16_t >( windowHeight );
@@ -46,7 +46,7 @@ void AdjustWindowDimensions( uint16_t& width, uint16_t& height, DWORD dwWindowSt
 }
 
 // Message handler for about box
-INT_PTR CALLBACK About( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
+static INT_PTR CALLBACK About( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	UNREFERENCED_PARAMETER( lParam );
 
@@ -82,7 +82,7 @@ INT_PTR CALLBACK About( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 //	WM_DESTROY	- post a quit message and return
 //
 //
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
 	{
@@ -177,7 +177,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 //
 //	PURPOSE: Registers the window class.
 //
-ATOM MyRegisterClass( HINSTANCE hInstance )
+static ATOM MyRegisterClass( HINSTANCE hInstance )
 {
 	WNDCLASSEX wcex;
 
@@ -197,7 +197,7 @@ ATOM MyRegisterClass( HINSTANCE hInstance )
 	return RegisterClassEx( &wcex );
 }
 
-void CopyBitmap( const PathTracer& tracer )
+static void CopyBitmap( const PathTracer& tracer )
 {
 	uint16_t width, height;
 	tracer.getDimensions( width, height );
@@ -247,7 +247,7 @@ void CopyBitmap( const PathTracer& tracer )
 //		  In this function, we save the instance handle in a global variable and
 //		  create and display the main program window.
 //
-BOOL InitInstance( HINSTANCE hInstance, int nCmdShow, PathTracer* tracer )
+static BOOL InitInstance( HINSTANCE hInstance, int nCmdShow, PathTracer* tracer )
 {
 	gInstance = hInstance; // Store instance handle in our global variable
 
@@ -276,7 +276,7 @@ BOOL InitInstance( HINSTANCE hInstance, int nCmdShow, PathTracer* tracer )
 	return TRUE;
 }
 
-bool PumpMessages( void )
+static bool PumpMessages( void )
 {
 	MSG msg;
 	while( PeekMessage( &msg, gHwnd, 0, 0, PM_NOREMOVE ) )
@@ -308,7 +308,7 @@ bool PumpMessages( void )
 	return true;
 }
 
-void TracerCompleteCallback( const PathTracer& tracer, void* data )
+static void TracerCompleteCallback( const PathTracer& tracer, void* data )
 {
 	// Copy the results to the HBITMAP
 	CopyBitmap( tracer );
@@ -322,7 +322,7 @@ void TracerCompleteCallback( const PathTracer& tracer, void* data )
 	}
 }
 
-void TracerProgressCallback( uint16_t step, void* data )
+static void TracerProgressCallback( uint16_t step, void* data )
 {
 	if( data != nullptr )
 	{
