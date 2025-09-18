@@ -91,6 +91,25 @@ bool PNGWriter::write( const uint8_t* pixels, uint16_t width, uint16_t height, u
 
 	// build uncompressed deflate block here
 
+	// Write the zlib header; the terminology used here comes from RFC 1950
+	// (https://www.ietf.org/rfc/rfc1950.txt)
+
+	uint8_t cmf = 0x78; // Compression method Deflate, 32K window size
+	fwrite( &cmf, sizeof( cmf ), 1, file );
+
+	uint8_t flg = 0x5e; // FLEVEL = 1
+	fwrite( &flg, sizeof( flg ), 1, file );
+
+	// Write the deflate blocks here, one per row of the image
+	// (since the size limit of a deflate block is 64K bytes,
+	//  we can't write the entire image to a single block unless
+	//  it's a 128x128 image or less. We're just going to assume
+	//  that our input image has a dimension > 128 pixels.)
+	// The deflate block format is defined by RFC 1951 defined at
+	// https://www.ietf.org/rfc/rfc1951.txt
+
+	
+
 	// write image data here
 
 	// write image data CRC here

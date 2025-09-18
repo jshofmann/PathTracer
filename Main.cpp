@@ -23,6 +23,7 @@ HWND		gHwnd = NULL;
 HBITMAP		gBitmap = NULL;
 BOOL		gContinue = TRUE;
 HACCEL		gAccelTable = NULL;
+INT			gExitCode = 0;
 
 static void AdjustWindowDimensions( uint16_t& width, uint16_t& height, DWORD dwWindowStyle )
 {
@@ -160,8 +161,14 @@ static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_DESTROY:
 	{
-		PostQuitMessage( 0 );
+		PostQuitMessage( 1 );
 		gContinue = FALSE;
+	}
+	break;
+
+	case WM_QUIT:
+	{
+		gExitCode = wParam;
 	}
 	break;
 
@@ -297,7 +304,7 @@ static bool PumpMessages( void )
 			}
 		}
 
-		if( !TranslateAccelerator( msg.hwnd, gAccelTable, &msg ) )
+		if( TranslateAccelerator( msg.hwnd, gAccelTable, &msg ) == 0 )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
@@ -356,13 +363,13 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
 //	if( !tracer.initialize( 1280, 720 ) )
 	if( !tracer.initialize( 400, 200 ) )
 	{
-		return FALSE;
+		return 0;
 	}
 
 	// Perform application initialization:
 	if( !InitInstance( hInstance, nCmdShow, &tracer ) )
 	{
-		return FALSE;
+		return 0;
 	}
 
 	gAccelTable = LoadAccelerators( hInstance, MAKEINTRESOURCE( IDC_PATHTRACER ) );
@@ -389,5 +396,5 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
 
 	} // while( gContinue )
 
-	return 0;
+	return gExitCode;
 }
